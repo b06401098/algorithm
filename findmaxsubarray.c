@@ -20,18 +20,27 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 int *find_max_subarray(int *array,int num);
 
 int main(int argc, char** argv)
 {	
 	int i=0;
+	struct timeval time_start,time_end;
+	double time_used;
 	int *array = (int *)malloc(sizeof(int)*atoi(argv[2]));
+	if(array==NULL)
+		perror("array=NULL\n");
 	freopen(argv[1],"r",stdin);
 	while(scanf("%d",&array[i])==1){
 		i++;
 	}
+	gettimeofday(&time_start,NULL);
 	int *ret = find_max_subarray(array,i);
+	gettimeofday(&time_end,NULL);
+	time_used =  1000000*(time_end.tv_sec-time_start.tv_sec)+time_end.tv_usec-time_start.tv_usec;
+	printf("time used : %lfus\n",time_used);
 	printf("----left point: %d----right point: %d----sum: %d\n",ret[0],ret[1],ret[2]);
 	return 0;
 }
